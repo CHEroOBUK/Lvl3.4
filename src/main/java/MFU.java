@@ -79,21 +79,22 @@ public class MFU {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            synchronized (printingBlocker){
-                try {
-                    while (isPrintLocked) {
-                        printingBlocker.wait();
-                    }
-                    isPrintLocked = true;
-                    System.out.println("Выполнение ксерокопии " + doc + " (печать)...");
-                    Thread.sleep(1000);
-                    System.out.println(doc + " распечатан");
-                    isPrintLocked = false;
-                    printingBlocker.notifyAll();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        }
+        synchronized (printingBlocker){
+            try {
+                while (isPrintLocked) {
+                    printingBlocker.wait();
                 }
+                isPrintLocked = true;
+                System.out.println("Выполнение ксерокопии " + doc + " (печать)...");
+                Thread.sleep(1000);
+                System.out.println(doc + " распечатан");
+                isPrintLocked = false;
+                printingBlocker.notifyAll();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
+
 }
